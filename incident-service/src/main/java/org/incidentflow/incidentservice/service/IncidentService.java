@@ -3,7 +3,9 @@ package org.incidentflow.incidentservice.service;
 import org.incidentflow.incidentservice.dto.*;
 import org.incidentflow.incidentservice.model.*;
 import org.incidentflow.incidentservice.repository.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 
@@ -22,12 +24,9 @@ public class IncidentService {
         incident.setTitle(request.getTitle());
         incident.setDescription(request.getDescription());
         incident.setSeverity(request.getSeverity());
-
         incident.setStatus(IncidentStatus.OPEN);
 
-        Incident savedIncident = incidentRepository.save(incident);
-
-        return mapToResponse(savedIncident);
+        return mapToResponse(incidentRepository.save(incident));
     }
 
     public List<IncidentResponse> getAllIncidents() {
@@ -43,9 +42,30 @@ public class IncidentService {
     }
 
     public IncidentResponse getIncidentById(UUID id) {
+        return mapToResponse(findIncidentById(id));
+    }
+
+    public IncidentResponse assignIncident(UUID id, AssignIncidentRequest request) {
+        Incident incident = findIncidentById(id);
+
+        incident.setOwner(request.getOwner());
+
+        return mapToResponse(incidentRepository.save(incident));
+
+    }
+
+    public IncidentResponse updateIncidentStatus(UUID id, UpdateIncidentStatusRequest request) {
+        Incident incident = findIncidentById(id);
+
+        incident.setStatus(request.getStatus());
+
+        return mapToResponse(incidentRepository.save(incident));
+    }
+
+    private Incident findIncidentById(UUID id) {
         return incidentRepository.findById(id)
-                .map(this::mapToResponse)
-                .orElseThrow(() -> new RuntimeException(
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
                         "Incident not found: " + id
                 ));
     }

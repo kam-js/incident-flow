@@ -1,0 +1,16 @@
+POST http://localhost:8080/incidents
+Content-Type: application/json
+
+{
+  "title": "API latency spike",
+  "description": "p95 latency exceeded 3 seconds",
+  "severity": "HIGH"
+}
+
+###
+
+GET http://localhost:8080/incidents
+
+###
+
+GET http://localhost:8080/incidents/659f8c10-d2a1-481a-8bb6-cf4fe9f8c0ac
