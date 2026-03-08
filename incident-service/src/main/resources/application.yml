@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: incident-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/incidentflow
+    username: postgres
+    password: postgres
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true

@@ -1,0 +1,32 @@
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Maven / Java build output
+**/target/
+
+# Logs
+*.log
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment / local overrides
+.env
+.env.*
+!.env.example
+
+# Java artifacts
+*.class
+*.jar
+*.war
+*.ear
+
+# Spring Boot generated files
+*.pid
+*.pid.lock
+
+# Test and coverage outputs
+coverage/
